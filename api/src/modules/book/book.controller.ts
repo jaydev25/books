@@ -1,4 +1,10 @@
-import { createBook, deleteBook, findBookById, findBooksByTitle, findBooksByUser } from './book.service';
+import {
+  createBook,
+  deleteBook,
+  findBookById,
+  findBooksByTitle,
+  findBooksByUser,
+} from './book.service';
 import Joi from 'joi';
 
 export const publishBook = async (req, res) => {
@@ -34,82 +40,83 @@ export const publishBook = async (req, res) => {
 };
 
 export const unPublishBook = async (req, res) => {
-    const { params } = req;
-    const bookSchema = Joi.object().keys({
-      bookId: Joi.string().required(),
+  const { params } = req;
+  const bookSchema = Joi.object().keys({
+    bookId: Joi.string().required(),
+  });
+  const result = bookSchema.validate(params);
+  const { error, value } = result;
+
+  const valid = error == null;
+  if (!valid) {
+    res.status(422).json({
+      message: 'Invalid request',
+      error: error,
     });
-    const result = bookSchema.validate(params);
-    const { error, value } = result;
-  
-    const valid = error == null;
-    if (!valid) {
-      res.status(422).json({
-        message: 'Invalid request',
-        error: error,
-      });
-    } else {
-      const { data, error } = await deleteBook(value.bookId);
-  
-      if (error) {
-        return res.status(500).json({ error });
-      }
-      return res.json({ message: 'Book deleted!', data });
+  } else {
+    const { data, error } = await deleteBook(value.bookId);
+
+    if (error) {
+      return res.status(500).json({ error });
     }
+    return res.json({ message: 'Book deleted!', data });
+  }
 };
 
 export const getBookById = async (req, res) => {
-    const { params } = req;
-    const bookSchema = Joi.object().keys({
-      bookId: Joi.string().required(),
+  const { params } = req;
+  const bookSchema = Joi.object().keys({
+    bookId: Joi.string().required(),
+  });
+  const result = bookSchema.validate(params);
+  const { error, value } = result;
+
+  const valid = error == null;
+  if (!valid) {
+    res.status(422).json({
+      message: 'Invalid request',
+      error: error,
     });
-    const result = bookSchema.validate(params);
-    const { error, value } = result;
-  
-    const valid = error == null;
-    if (!valid) {
-      res.status(422).json({
-        message: 'Invalid request',
-        error: error,
-      });
-    } else {
-      const { data, error } = await findBookById(value.bookId);
-  
-      if (error) {
-        return res.status(500).json({ error });
-      }
-      return res.json({ message: 'Book found!', data });
+  } else {
+    const { data, error } = await findBookById(value.bookId);
+
+    if (error) {
+      return res.status(500).json({ error });
     }
+    return res.json({ message: 'Book found!', data });
+  }
 };
 
 export const getMyBooks = async (req, res) => {
-      const { data, error } = await findBooksByUser(req.user.userId);
-  
-      if (error) {
-        return res.status(500).json({ error });
-      }
-      return res.json({ message: 'My Books!', data });
+  const { data, error } = await findBooksByUser(req.user.userId);
+
+  if (error) {
+    return res.status(500).json({ error });
+  }
+  return res.json({ message: 'My Books!', data });
 };
 
 export const getBooksByTitle = async (req, res) => {
-    const { params } = req;
-    const bookSchema = Joi.object().keys({
-      title: Joi.string().required(),
+  const { query } = req;
+  
+  const bookSchema = Joi.object().keys({
+    search: Joi.string().allow('').allow(null),
+  });
+  const result = bookSchema.validate(query);
+  const { error, value } = result;
+
+  const valid = error == null;
+  if (!valid) {
+    res.status(422).json({
+      message: 'Invalid request',
+      error: error,
     });
-    const result = bookSchema.validate(params);
-    const { error, value } = result;
-  
-    const valid = error == null;
-    if (!valid) {
-      res.status(422).json({
-        message: 'Invalid request',
-        error: error,
-      });
-    } else {
-      const { data, error } = await findBooksByTitle(value.title);
-  
-      if (error) {
-        return res.status(500).json({ error });
-      }
-      return res.json({ message: 'Books found!', data });
+  } else {
+    const { data, error } = await findBooksByTitle(value.search);
+
+    if (error) {
+      return res.status(500).json({ error });
     }
+    return res.json({ message: 'Books found!', data });
+  }
 };

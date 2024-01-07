@@ -8,8 +8,15 @@ import * as path from 'path';
 import bodyParser from 'body-parser';
 import { authRouter, auth } from './modules/auth/index';
 import { bookRouter } from './modules/book';
+import cors from 'cors';
 
 const app = express();
+app.use(
+  cors({
+    origin: '*',
+    optionsSuccessStatus: 200,
+  })
+);
 
 // body-parser
 app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
