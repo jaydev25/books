@@ -6,7 +6,8 @@
 import express from 'express';
 import * as path from 'path';
 import bodyParser from 'body-parser';
-import { authRouter } from './modules/auth/index';
+import { authRouter, auth } from './modules/auth/index';
+import { bookRouter } from './modules/book';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use('/api', authRouter);
+app.use('/api/book', auth, bookRouter);
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 

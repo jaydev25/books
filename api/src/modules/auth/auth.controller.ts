@@ -1,6 +1,8 @@
-import userModel, { comparePassword } from './../../models/user.model';
+import { comparePassword } from './../../models/user.model';
 import Joi from 'joi';
 import { createUser, getUserWithEmail } from './auth.service';
+import config from 'api/src/config/config';
+import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res) => {
   const { body } = req;
@@ -57,7 +59,14 @@ export const login = async (req, res) => {
       return res.json({
         message: 'User authenticated successfully',
         data: {
-          token: 'token',
+          token: jwt.sign(
+            {
+              userId: data._id,
+              firstName: data.profile.firstName,
+              lastName: data.profile.lastName,
+            },
+            config.jwt.secret
+          ),
         },
       });
     } else {
