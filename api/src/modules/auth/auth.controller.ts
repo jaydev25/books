@@ -1,5 +1,6 @@
 import userModel from './../../models/user.model';
 import Joi from 'joi';
+import { createUser } from './auth.service';
 
 export const signup = async (req, res) => {
   const { body } = req;
@@ -32,5 +33,33 @@ export const signup = async (req, res) => {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
+  }
+};
+
+export const login = async (req, res) => {
+  const { body } = req;
+  const userSchema = Joi.object().keys({
+    email: Joi.string().required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    password: Joi.string().required(),
+  });
+  const result = userSchema.validate(body);
+  const { error, value } = result;
+
+  const valid = error == null;
+  if (!valid) {
+    res.status(422).json({
+      message: 'Invalid request',
+      error: error,
+    });
+  } else {
+    const { data, error } = await createUser(value);
+
+    if (error) {
+      return res.status(500).json({ message: 'User created!', data });
+    }
+
+    return res.json({ error });
   }
 };
