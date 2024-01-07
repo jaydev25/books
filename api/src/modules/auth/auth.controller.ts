@@ -28,10 +28,9 @@ export const signup = async (req, res) => {
           lastName: value.lastName,
         },
       });
-      // const createdPost = await api.createPost(data);
-      res.json({ message: 'Resource created', data: user });
+      res.json({ message: 'User created', data: user });
     } catch (error) {
-      res.json({ status: 500, error: error.message });
+      res.status(500).json({ message: error.message });
     }
   }
 };
