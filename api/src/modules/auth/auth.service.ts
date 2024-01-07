@@ -18,3 +18,21 @@ export const createUser = async (data) => {
     };
   }
 };
+
+export const getUserWithEmail = async (email) => {
+  try {
+    const user = await userModel.findOne({
+      email,
+    });
+
+    if (user) {
+      return { data: user };
+    } else {
+      return { error: `User with Email: ${email} not found!` };
+    }
+  } catch (error) {
+    return {
+      error: error.message,
+    };
+  }
+};

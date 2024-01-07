@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { signup } from './auth.controller';
+import { login, signup } from './auth.controller';
 
 export const authRoutes = Router();
 
@@ -12,5 +12,5 @@ authRoutes.post('/signup', async (req, res) => {
 });
 
 authRoutes.post('/login', (req, res) => {
-  res.send('Login');
+    return login(req, res);
 });
