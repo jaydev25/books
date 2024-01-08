@@ -24,9 +24,14 @@ export const deleteBook = async (bookId) => {
   }
 };
 
-export const findBooksByUser = async (userId) => {
+export const findBooksByUser = async (userId, page, limit) => {
   try {
-    const books = await bookModel.find({ 'author.userId': userId });
+    const options = {
+      page,
+      limit,
+    };
+
+    const books = await bookModel.paginate({ 'author.userId': userId }, options);
 
     return { data: books };
   } catch (error) {
@@ -48,11 +53,16 @@ export const findBookById = async (bookId) => {
   }
 };
 
-export const findBooksByTitle = async (title) => {
+export const findBooksByTitle = async (title, page, limit) => {
   try {
     let regex = new RegExp(title, 'i');
 
-    const books = await bookModel.find({ title: regex });
+    const options = {
+      page,
+      limit,
+    };
+
+    const books = await bookModel.paginate({ title: regex }, options);
 
     return { data: books };
   } catch (error) {

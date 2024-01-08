@@ -88,12 +88,29 @@ export const getBookById = async (req, res) => {
 };
 
 export const getMyBooks = async (req, res) => {
-  const { data, error } = await findBooksByUser(req.user.userId);
+  const { query } = req;
+  
+  const bookSchema = Joi.object().keys({
+    page: Joi.number().allow(null).default(1),
+    limit: Joi.number().allow(null).default(10),
+  });
+  const result = bookSchema.validate(query);
+  const { error, value } = result;
+  const valid = error == null;
 
-  if (error) {
-    return res.status(500).json({ error });
+  if (!valid) {
+    res.status(422).json({
+      message: 'Invalid request',
+      error: error,
+    });
+  } else {
+    const { data, error } = await findBooksByUser(req.user.userId, value.page, value.limit);
+
+    if (error) {
+      return res.status(500).json({ error });
+    }
+    return res.json({ message: 'My Books!', data });
   }
-  return res.json({ message: 'My Books!', data });
 };
 
 export const getBooksByTitle = async (req, res) => {
@@ -101,6 +118,8 @@ export const getBooksByTitle = async (req, res) => {
   
   const bookSchema = Joi.object().keys({
     search: Joi.string().allow('').allow(null),
+    page: Joi.number().allow(null).default(1),
+    limit: Joi.number().allow(null).default(10),
   });
   const result = bookSchema.validate(query);
   const { error, value } = result;
@@ -112,7 +131,7 @@ export const getBooksByTitle = async (req, res) => {
       error: error,
     });
   } else {
-    const { data, error } = await findBooksByTitle(value.search);
+    const { data, error } = await findBooksByTitle(value.search, value.page, value.limit);
 
     if (error) {
       return res.status(500).json({ error });

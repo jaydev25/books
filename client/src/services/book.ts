@@ -30,10 +30,10 @@ export const unPublishBook = async (bookId: any) => {
   }
 };
 
-export const myBooks = async () => {
+export const myBooks = async (page: any, limit: any) => {
   const response: any = await axios({
     method: 'get',
-    url: `${base_url}/book/my-books`,
+    url: `${base_url}/book/my-books/?page=${page}&limit=${limit}`,
     headers: {
       Authorization: localStorage.getItem('token'),
     },
@@ -44,10 +44,10 @@ export const myBooks = async () => {
   }
 };
 
-export const searchBooks = async (title: any) => {
+export const searchBooks = async (title: any, page: any, limit: any) => {
   const response: any = await axios({
     method: 'get',
-    url: `${base_url}/book/search/?search=${title}`,
+    url: `${base_url}/book/search/?search=${title}&page=${page}&limit=${limit}`,
     headers: {
       Authorization: localStorage.getItem('token'),
     },

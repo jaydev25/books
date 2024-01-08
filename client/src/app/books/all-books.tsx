@@ -17,19 +17,21 @@ export const AllBooks = () => {
   };
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState('');
+  const [pagination, setPagination] = useState<any>({ page: 1, limit: 10 });
 
-  const searchBooksWithTitle = async (title: any) => {
+  const searchBooksWithTitle = async (title: any, page: any, limit: any) => {
     try {
-      const resp = await searchBooks(title);
-
-      setBooks(resp.data);
+      const resp = await searchBooks(title, page, limit);
+      const { docs, ...rest } = resp.data;
+      setBooks(docs);
+      setPagination(rest);
     } catch (error: any) {
       errorMessage(error);
     }
   };
 
   useEffect(() => {
-    searchBooksWithTitle(search);
+    searchBooksWithTitle(search, pagination.page, pagination.limit);
   }, [search]);
 
   return (
@@ -46,7 +48,19 @@ export const AllBooks = () => {
       </Flex>
       <Flex>
         {books.length > 0 && (
-          <Table dataSource={books} style={{ width: '100%'}}>
+          <Table
+            dataSource={books}
+            style={{ width: '100%' }}
+            pagination={{
+              defaultPageSize: pagination.limit,
+              showSizeChanger: true,
+              pageSizeOptions: ['10', '20', '30'],
+              total: pagination.totalDocs,
+            }}
+            onChange={(e) => {
+              searchBooksWithTitle(search, e.current, e.pageSize);
+            }}
+          >
             <Column title="Title" dataIndex="title" key="title" />
             <Column title="Description" dataIndex="desc" key="desc" />
             <Column
@@ -54,7 +68,7 @@ export const AllBooks = () => {
               dataIndex="author"
               key="author.firstName"
               render={(_: any, record: any) => (
-                <Space size="middle">
+                <Space key={record._id} size="middle">
                   {`${record.author.firstName} ${record.author.lastName}`}
                 </Space>
               )}
