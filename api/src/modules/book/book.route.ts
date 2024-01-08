@@ -10,7 +10,6 @@ import {
 export const bookRoutes = Router();
 
 bookRoutes.post('/publish', publishBook);
-bookRoutes.get('/my-books', getMyBooks);
+bookRoutes.get('/user', getMyBooks);
 bookRoutes.get('/search/', getBooksByTitle);
-bookRoutes.delete('/:bookId', unPublishBook);
-bookRoutes.get('/:bookId', getBookById);
+bookRoutes.put('/unpublish/:bookId', unPublishBook);

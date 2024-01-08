@@ -23,7 +23,7 @@ app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use('/api', authRouter);
-app.use('/api/book', auth, bookRouter);
+app.use('/api/books', auth, bookRouter);
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 

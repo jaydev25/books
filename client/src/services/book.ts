@@ -4,7 +4,7 @@ const base_url = '/api';
 export const publishBook = async (data: any) => {
   const response: any = await axios({
     method: 'post',
-    url: `${base_url}/book/publish`,
+    url: `${base_url}/books/publish`,
     headers: {
       Authorization: localStorage.getItem('token'),
     },
@@ -18,8 +18,8 @@ export const publishBook = async (data: any) => {
 
 export const unPublishBook = async (bookId: any) => {
   const response: any = await axios({
-    method: 'delete',
-    url: `${base_url}/book/${bookId}`,
+    method: 'put',
+    url: `${base_url}/books/unpublish/${bookId}`,
     headers: {
       Authorization: localStorage.getItem('token'),
     },
@@ -33,7 +33,7 @@ export const unPublishBook = async (bookId: any) => {
 export const myBooks = async (page: any, limit: any) => {
   const response: any = await axios({
     method: 'get',
-    url: `${base_url}/book/my-books/?page=${page}&limit=${limit}`,
+    url: `${base_url}/books/user/?page=${page}&limit=${limit}`,
     headers: {
       Authorization: localStorage.getItem('token'),
     },
@@ -47,7 +47,7 @@ export const myBooks = async (page: any, limit: any) => {
 export const searchBooks = async (title: any, page: any, limit: any) => {
   const response: any = await axios({
     method: 'get',
-    url: `${base_url}/book/search/?search=${title}&page=${page}&limit=${limit}`,
+    url: `${base_url}/books/search/?search=${title}&page=${page}&limit=${limit}`,
     headers: {
       Authorization: localStorage.getItem('token'),
     },
