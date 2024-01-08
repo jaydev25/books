@@ -11,7 +11,7 @@ Set env variables in. env file, refer .env.sample
 
 ## Start the app
 
-To start the development server run `nx run-many -t serve -p api client --parallel=2 `. Open your browser and navigate to http://localhost:4200/. Happy coding!
+To start the development server run `nx run-many -t serve -p api client --parallel=2`. Open your browser and navigate to http://localhost:4200/. Happy coding!
 
 This command will start local development backedn server on http://localhost:3000/api
 

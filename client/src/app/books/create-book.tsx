@@ -1,5 +1,5 @@
 import { Form, Input, Button, message, Flex } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, SearchOutlined } from '@ant-design/icons';
 import { publishBook } from './../../services/book';
 
 export const CreateBook = () => {
@@ -27,7 +27,7 @@ export const CreateBook = () => {
   };
 
   return (
-    <Flex style={{ margin: 'auto', flexDirection: 'column' }}>
+    <Flex style={{ flexDirection: 'column', alignItems: 'center' }}>
       {contextHolder}
       <div>
         <h1>Publish a book</h1>

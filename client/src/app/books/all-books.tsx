@@ -33,9 +33,9 @@ export const AllBooks = () => {
   }, [search]);
 
   return (
-    <Flex style={{ margin: 'auto', flexDirection: 'column' }}>
+    <Flex style={{ flexDirection: 'column', alignItems: 'center' }}>
       {contextHolder}
-      <div>
+      <Flex>
         <Input
           prefix={<SearchOutlined className="site-form-item-icon" />}
           placeholder="Search"
@@ -43,10 +43,10 @@ export const AllBooks = () => {
             setSearch(e.target.value);
           }}
         />
-      </div>
-      <div>
+      </Flex>
+      <Flex>
         {books.length > 0 && (
-          <Table dataSource={books}>
+          <Table dataSource={books} style={{ width: '100%'}}>
             <Column title="Title" dataIndex="title" key="title" />
             <Column title="Description" dataIndex="desc" key="desc" />
             <Column
@@ -61,7 +61,7 @@ export const AllBooks = () => {
             />
           </Table>
         )}
-      </div>
+      </Flex>
     </Flex>
   );
 };

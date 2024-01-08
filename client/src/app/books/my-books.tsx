@@ -31,7 +31,7 @@ export const MyBooks = () => {
   }, []);
 
   return (
-    <Flex style={{ margin: 'auto', flexDirection: 'column' }}>
+    <Flex style={{ flexDirection: 'column', alignItems: 'center' }}>
       {contextHolder}
       <div>
         {books.length > 0 && (

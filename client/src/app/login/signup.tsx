@@ -16,7 +16,7 @@ export const Signup = () => {
   };
 
   return (
-    <Flex style={{ margin: 'auto' }}>
+    <Flex style={{ flexDirection: 'column', alignItems: 'center' }}>
       <Form
         name="normal_login"
         className="login-form"

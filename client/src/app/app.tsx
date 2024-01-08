@@ -7,13 +7,14 @@ import { Login } from './login/login';
 import { CreateBook } from './books/create-book';
 import { MyBooks } from './books/my-books';
 import { AllBooks } from './books/all-books';
+import { Flex } from 'antd';
 
 export function App() {
   const token = localStorage.getItem('token');
 
   return (
-    <div>
-      <div role="navigation">
+    <Flex style={{ flexDirection: 'column', alignItems: 'center' }}>
+      <Flex role="navigation" style={{ flexDirection: 'row', alignItems: 'center' }}>
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -40,7 +41,7 @@ export function App() {
             </>
           )}
         </ul>
-      </div>
+      </Flex>
       <Routes>
         {token ? (
           <>
@@ -55,7 +56,7 @@ export function App() {
           </>
         )}
       </Routes>
-    </div>
+    </Flex>
   );
 }
 
