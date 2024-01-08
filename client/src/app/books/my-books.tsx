@@ -71,6 +71,9 @@ export const MyBooks = () => {
                         setBooks((state) => {
                           return state.filter((b: any) => record._id !== b._id);
                         });
+                        successMessage('Book Unpublished Successfully!');
+                      }).catch((error) => {
+                        errorMessage('Somthing went wrong!');
                       });
                     }}
                   >
